@@ -1,1 +1,1 @@
-Hi there
+<img src="./public/images/LocProjectArchitecture.jpg">
