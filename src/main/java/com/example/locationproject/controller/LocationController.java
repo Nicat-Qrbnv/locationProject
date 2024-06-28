@@ -1,7 +1,6 @@
 package com.example.locationproject.controller;
 
 import com.example.locationproject.dto.location.LocationRequest;
-import com.example.locationproject.dto.location.LocationResponse;
 import com.example.locationproject.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +15,8 @@ public class LocationController {
     private LocationService locationService;
 
     @PostMapping
-    public LocationResponse createLocation(@RequestBody LocationRequest locationRequest) {
-        // Call your service method to handle the creation logic
-        LocationResponse locationResponse = locationService.createLocation(locationRequest);
-        return locationResponse;
+    public void createLocation(@RequestBody LocationRequest locationRequest) {
+        locationService.createLocation(locationRequest);
     }
 
 }
