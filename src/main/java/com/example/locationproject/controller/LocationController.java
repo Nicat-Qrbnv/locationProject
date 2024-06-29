@@ -1,6 +1,6 @@
 package com.example.locationproject.controller;
 
-import com.example.locationproject.dto.location.LocationRequest;
+import com.example.locationproject.dto.RequestDto;
 import com.example.locationproject.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +15,23 @@ public class LocationController {
     private LocationService locationService;
 
     @PostMapping
-    public void createLocation(@RequestBody LocationRequest locationRequest) {
-        locationService.createLocation(locationRequest);
+    public void createLocation(@RequestBody RequestDto requestDto) {
+        locationService.createLocation(requestDto);
     }
 
     @GetMapping("/{id}")
-    public LocationRequest getLocation(@PathVariable Long id) {
+    public RequestDto getLocation(@PathVariable Long id) {
         return locationService.getLocation(id);
     }
 
     @GetMapping
-    public List<LocationRequest> getAllLocations() {
+    public List<RequestDto> getAllLocations() {
         return locationService.getAllLocations();
     }
 
     @PutMapping("/{id}")
-    public void updateLocation(@PathVariable Long id, @RequestBody LocationRequest locationRequest) {
-        locationService.updateLocation(id, locationRequest);
+    public void updateLocation(@PathVariable Long id, @RequestBody RequestDto requestDto) {
+        locationService.updateLocation(id, requestDto);
     }
 
     @DeleteMapping("/{id}")

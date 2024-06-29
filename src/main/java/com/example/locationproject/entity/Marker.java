@@ -1,8 +1,8 @@
 package com.example.locationproject.entity;
 
-import com.example.locationproject.enums.LocationType;
+import com.example.locationproject.enums.MarkerType;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,18 +11,18 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "locations")
-public class Location {
+@Table(name = "markers")
+public class Marker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String title;
     private String description;
-    private String locationType;
+    private MarkerType markerType;
     private double latitude;
     private double longitude;
     private LocalDateTime createdDate;
