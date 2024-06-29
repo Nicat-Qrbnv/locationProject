@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @Entity
-//@Table(name = "locations")
+@Table(name = "locations")
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +22,9 @@ public class Location {
 
     private String title;
     private String description;
-
-    @Enumerated(EnumType.STRING)
-    private LocationType locationType;
-
+    private String locationType;
     private double latitude;
     private double longitude;
-
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }
