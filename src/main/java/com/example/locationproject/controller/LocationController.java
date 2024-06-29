@@ -16,7 +16,7 @@ public class LocationController {
 
     @PostMapping
     public void createLocation(@RequestBody RequestDto requestDto) {
-        locationService.createLocation(requestDto);
+        locationService.createMarker(requestDto);
     }
 
     @GetMapping("/{id}")

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface LocationRepository extends JpaRepository<Marker, Long> {
+public interface MarkerRepository extends JpaRepository<Marker, Long> {
 }
