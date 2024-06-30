@@ -1,6 +1,7 @@
 package com.example.locationproject.service;
 
 import com.example.locationproject.dto.RequestDto;
+import com.example.locationproject.dto.ResponseDto;
 import com.example.locationproject.entity.Marker;
 import com.example.locationproject.exception.ResourceNotFoundException;
 import com.example.locationproject.repository.MarkerRepository;
@@ -18,34 +19,37 @@ public class LocationService {
     private final MarkerRepository markerRepo;
     private final ModelMapper mapper;
 
-    public void createMarker(RequestDto requestDto) {
+    public ResponseDto createMarker(RequestDto requestDto) {
         Marker marker = mapper.map(requestDto, Marker.class);
-        markerRepo.save(marker);
+        marker = markerRepo.save(marker);
+        return mapper.map (marker, ResponseDto.class);
     }
 
-    public RequestDto getLocation(Long id) {
+    public ResponseDto getMarker(Long id) {
         Marker marker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
-        return mapper.map(marker, RequestDto.class);
+        return mapper.map(marker, ResponseDto.class);
     }
 
-    public List<RequestDto> getAllLocations() {
+    public List<ResponseDto> getAllMarkers() {
         List<Marker> markers = markerRepo.findAll();
         return markers.stream()
-                .map(marker -> mapper.map(marker, RequestDto.class))
+                .map(marker -> mapper.map(marker, ResponseDto.class))
                 .collect(Collectors.toList());
     }
 
-    public void updateLocation(Long id, RequestDto requestDto) {
+    public ResponseDto updateMarker(Long id, RequestDto requestDto) {
         Marker existingMarker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
         mapper.map(requestDto, existingMarker);
         markerRepo.save(existingMarker);
+        return mapper.map (existingMarker, ResponseDto.class);
     }
 
-    public void deleteLocation(Long id) {
-        Marker existingMarker = markerRepo.findById(id)
+    public ResponseDto deleteMarker(Long id) {
+        Marker marker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
-        markerRepo.delete(existingMarker);
+        markerRepo.delete(marker);
+        return mapper.map (marker, ResponseDto.class);
     }
 }

@@ -1,42 +1,41 @@
 package com.example.locationproject.controller;
 
 import com.example.locationproject.dto.RequestDto;
+import com.example.locationproject.dto.ResponseDto;
 import com.example.locationproject.service.LocationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/locations")
+@RequestMapping("/markers")
 public class LocationController {
+    private final LocationService locationService;
 
-    @Autowired
-    private LocationService locationService;
-
-    @PostMapping
-    public void createLocation(@RequestBody RequestDto requestDto) {
-        locationService.createMarker(requestDto);
+    @PostMapping("/new")
+    public ResponseDto createLocation(@RequestBody RequestDto requestDto) {
+        return locationService.createMarker(requestDto);
     }
 
     @GetMapping("/{id}")
-    public RequestDto getLocation(@PathVariable Long id) {
-        return locationService.getLocation(id);
+    public ResponseDto getLocation(@PathVariable Long id) {
+        return locationService.getMarker(id);
     }
 
-    @GetMapping
-    public List<RequestDto> getAllLocations() {
-        return locationService.getAllLocations();
+    @GetMapping("/all")
+    public List<ResponseDto> getAllLocations() {
+        return locationService.getAllMarkers();
     }
 
     @PutMapping("/{id}")
-    public void updateLocation(@PathVariable Long id, @RequestBody RequestDto requestDto) {
-        locationService.updateLocation(id, requestDto);
+    public ResponseDto updateLocation(@PathVariable Long id, @RequestBody RequestDto requestDto) {
+        return locationService.updateMarker(id, requestDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLocation(@PathVariable Long id) {
-        locationService.deleteLocation(id);
+    public ResponseDto deleteLocation(@PathVariable Long id) {
+        return locationService.deleteMarker(id);
     }
-
 }
