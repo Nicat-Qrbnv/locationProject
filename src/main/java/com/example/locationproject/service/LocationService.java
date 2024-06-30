@@ -1,53 +1,55 @@
 package com.example.locationproject.service;
 
-import com.example.locationproject.dto.location.LocationRequest;
-import com.example.locationproject.entity.Location;
+import com.example.locationproject.dto.RequestDto;
+import com.example.locationproject.dto.ResponseDto;
+import com.example.locationproject.entity.Marker;
 import com.example.locationproject.exception.ResourceNotFoundException;
-import com.example.locationproject.repository.LocationRepository;
+import com.example.locationproject.repository.MarkerRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class LocationService {
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final MarkerRepository markerRepo;
+    private final ModelMapper mapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public void createLocation(LocationRequest locationRequest) {
-        Location location = modelMapper.map(locationRequest, Location.class);
-        locationRepository.save(location);
+    public ResponseDto createMarker(RequestDto requestDto) {
+        Marker marker = mapper.map(requestDto, Marker.class);
+        marker = markerRepo.save(marker);
+        return mapper.map (marker, ResponseDto.class);
     }
 
-    public LocationRequest getLocation(Long id) {
-        Location location = locationRepository.findById(id)
+    public ResponseDto getMarker(Long id) {
+        Marker marker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
-        return modelMapper.map(location, LocationRequest.class);
+        return mapper.map(marker, ResponseDto.class);
     }
 
-    public List<LocationRequest> getAllLocations() {
-        List<Location> locations = locationRepository.findAll();
-        return locations.stream()
-                .map(location -> modelMapper.map(location, LocationRequest.class))
+    public List<ResponseDto> getAllMarkers() {
+        List<Marker> markers = markerRepo.findAll();
+        return markers.stream()
+                .map(marker -> mapper.map(marker, ResponseDto.class))
                 .collect(Collectors.toList());
     }
 
-    public void updateLocation(Long id, LocationRequest locationRequest) {
-        Location existingLocation = locationRepository.findById(id)
+    public ResponseDto updateMarker(Long id, RequestDto requestDto) {
+        Marker existingMarker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
-        modelMapper.map(locationRequest, existingLocation);
-        locationRepository.save(existingLocation);
+        mapper.map(requestDto, existingMarker);
+        markerRepo.save(existingMarker);
+        return mapper.map (existingMarker, ResponseDto.class);
     }
 
-    public void deleteLocation(Long id) {
-        Location existingLocation = locationRepository.findById(id)
+    public ResponseDto deleteMarker(Long id) {
+        Marker marker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
-        locationRepository.delete(existingLocation);
+        markerRepo.delete(marker);
+        return mapper.map (marker, ResponseDto.class);
     }
 }

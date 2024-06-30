@@ -1,8 +1,15 @@
 package com.example.locationproject.enums;
 
-public enum LocationType {
+public enum MarkerType {
 
-    RIVER;
+    CUSTOM,
+    BUILDING,
+    ROAD,
+    RESTAURANT,
+    STORE,
+    PARK,
+    RIVER,
+    LAKE;
 
 
     @Override
