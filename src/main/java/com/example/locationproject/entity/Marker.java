@@ -1,19 +1,19 @@
 package com.example.locationproject.entity;
 
 import com.example.locationproject.enums.MarkerType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "markers")
+@Entity
 public class Marker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
