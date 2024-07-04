@@ -1,1 +1,1 @@
-<img src="./public/images/LocProjectArchitecture.jpg">
+<img src="src/main/resources/views/images/LocProjectArchitecture.jpg">

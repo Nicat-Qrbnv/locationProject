@@ -30,10 +30,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-//                .formLogin(formLogin -> formLogin
-//                        .loginPage("/auth/login")
-//                        .permitAll()
-//                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/auth/login")
+                        .permitAll()
+                )
                 .httpBasic(withDefaults())
                 .build();
     }
