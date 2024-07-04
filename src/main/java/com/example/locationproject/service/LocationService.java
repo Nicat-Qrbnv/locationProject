@@ -2,7 +2,6 @@ package com.example.locationproject.service;
 
 import com.example.locationproject.dto.RequestDto;
 import com.example.locationproject.dto.ResponseDto;
-import com.example.locationproject.util.Mappable;
 import com.example.locationproject.entity.Marker;
 import com.example.locationproject.exception.ResourceNotFoundException;
 import com.example.locationproject.repository.MarkerRepository;
