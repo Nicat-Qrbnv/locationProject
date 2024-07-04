@@ -1,7 +1,6 @@
 package com.example.locationproject.entity;
 
 import com.example.locationproject.enums.MarkerType;
-import com.example.locationproject.util.Mappable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "markers")
 @Entity
-public class Marker implements Mappable {
+public class Marker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

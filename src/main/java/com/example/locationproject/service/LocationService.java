@@ -51,7 +51,7 @@ public class LocationService {
         return mapper.map(marker, ResponseDto.class);
     }
 
-    public <D extends Mappable, S extends Mappable> List<D> listMapping(List<S> source, Class<D> destination) {
+    public <D, S> List<D> listMapping(List<S> source, Class<D> destination) {
         return source.stream().map(s -> mapper.map(s, destination)).toList();
     }
 }
