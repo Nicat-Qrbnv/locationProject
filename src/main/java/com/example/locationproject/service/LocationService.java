@@ -2,6 +2,7 @@ package com.example.locationproject.service;
 
 import com.example.locationproject.dto.RequestDto;
 import com.example.locationproject.dto.ResponseDto;
+import com.example.locationproject.util.Mappable;
 import com.example.locationproject.entity.Marker;
 import com.example.locationproject.exception.ResourceNotFoundException;
 import com.example.locationproject.repository.MarkerRepository;
@@ -10,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,7 +22,7 @@ public class LocationService {
     public ResponseDto createMarker(RequestDto requestDto) {
         Marker marker = mapper.map(requestDto, Marker.class);
         marker = markerRepo.save(marker);
-        return mapper.map (marker, ResponseDto.class);
+        return mapper.map(marker, ResponseDto.class);
     }
 
     public ResponseDto getMarker(Long id) {
@@ -33,9 +33,7 @@ public class LocationService {
 
     public List<ResponseDto> getAllMarkers() {
         List<Marker> markers = markerRepo.findAll();
-        return markers.stream()
-                .map(marker -> mapper.map(marker, ResponseDto.class))
-                .collect(Collectors.toList());
+        return listMapping(markers, ResponseDto.class);
     }
 
     public ResponseDto updateMarker(Long id, RequestDto requestDto) {
@@ -43,13 +41,17 @@ public class LocationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
         mapper.map(requestDto, existingMarker);
         markerRepo.save(existingMarker);
-        return mapper.map (existingMarker, ResponseDto.class);
+        return mapper.map(existingMarker, ResponseDto.class);
     }
 
     public ResponseDto deleteMarker(Long id) {
         Marker marker = markerRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
         markerRepo.delete(marker);
-        return mapper.map (marker, ResponseDto.class);
+        return mapper.map(marker, ResponseDto.class);
+    }
+
+    public <D extends Mappable, S extends Mappable> List<D> listMapping(List<S> source, Class<D> destination) {
+        return source.stream().map(s -> mapper.map(s, destination)).toList();
     }
 }
