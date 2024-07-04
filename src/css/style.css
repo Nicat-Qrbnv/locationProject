@@ -1,56 +1,67 @@
+
 @font-face {
     font-family: 'Sucrose Bold Two';
     src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/sucrose.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'IM Fell French Canon Pro';
     src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/im-fell-french-canon-pro.woff2') format('woff2');
 }
-*,
-*::before,
-*::after {
+
+
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
 header {
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/mountain-range.jpg) no-repeat;
-    padding-top: 61.93333333%;
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/mountain-range.jpg');
+    background-repeat: no-repeat;
     background-size: cover;
+    padding-top: 61.93%;
     font-family: 'Sucrose Bold Two';
 }
+
 header img {
     position: absolute;
     top: 0;
     right: 0;
     width: 45.8%;
 }
+
 header h1 {
     position: fixed;
     top: 2rem;
     right: 2rem;
     font-size: 12vw;
-    line-height: .8;
-    margin-top: 0;
+    line-height: 0.8;
     text-align: center;
 }
+
 header h1 span {
     display: block;
     font-size: 8.75vw;
 }
+
+
 main {
     background: #fff;
-    position: relative;
     border: 1px solid #fff;
     font-family: 'IM Fell French Canon Pro';
     font-size: 1.4rem;
     padding: 2rem 25%;
     line-height: 1.6;
 }
-@media all and (max-width: 400px) {
-    main { padding: 2rem; }
+
+@media (max-width: 400px) {
+    main {
+        padding: 2rem;
+    }
 }
+
 
 nav {
     position: fixed;
@@ -59,74 +70,78 @@ nav {
     right: 2rem;
     z-index: 1;
 }
+
 ul {
-    padding: 0;
     list-style: none;
+    padding: 0;
 }
 
 ul li {
     position: relative;
-    width: 50px;
-    height: 50px;
-    transition: 0.3s ease-in-out;
+    width: 38px;
+    height: 38px;
     border: 1px solid #004CFF;
     cursor: pointer;
-}
-li:hover .divInner {
-    height: 50px;
-    width: 50px;
-    transform: translateX(0px) translateY(0px) rotate(0deg);
     transition: 0.3s ease-in-out;
 }
 
-ul li:hover .divShadow {
-    z-index: 2;
+li:hover .divInner,
+li:hover .divShadow,
+li:hover .iconUser {
     transition: 0.3s ease-in-out;
+}
+
+li:hover .divInner {
+    height: 40px;
+    width: 40px;
+    transform: none;
+}
+
+li:hover .divShadow {
     box-shadow: 0 0 40px 40px rgba(0, 76, 255, 0.15);
 }
 
 li:hover .iconUser {
     background-image: url('https://rassweiler-it.de/images/rassweiler-it_icon_user_blue_filled.png');
+}
+
+.divInner,
+.divShadow,
+.spanTxt {
+    position: absolute;
     transition: 0.3s;
 }
+
 .divInner {
-    position: absolute;
-    height: 56px;
-    width: 56px;
+    height: 40px;
+    width: 40px;
     background-color: black;
-    transform: translateX(-3px) translateY(-3px) rotate(45deg);
-    transform-origin: center;
+    transform: translate(-3px, -3px) rotate(45deg);
     z-index: 1;
-    transition: 0.3s ease-in-out;
 }
 
 .divShadow {
-    position: absolute;
     left: 25px;
     top: 25px;
-    height: 0px;
-    width: 0px;
+    height: 0;
+    width: 0;
     z-index: 2;
-    transition: 0.3s ease-in-out;
 }
 
 .spanTxt {
-    text-align: center;
-    position: absolute;
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     color: #fff200;
     line-height: 50px;
     font-size: 40px;
-    transform: translateX(10px) translateY(10px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 3;
-    background-position: center;
-    background-size: contain;
-    transition: 0.3s;
+    background: url('https://rassweiler-it.de/images/rassweiler-it_icon_user_blue_hollow.png') center / contain no-repeat;
 }
-.iconUser {
-    background-image: url('https://rassweiler-it.de/images/rassweiler-it_icon_user_blue_hollow.png');
-}
+
 
 nav a {
     color: #ffffff;
@@ -141,21 +156,14 @@ nav a:hover {
 }
 
 
-@media screen and (max-width: 768px) {
-    header h1 {
+@media (max-width: 768px) {
+    header h1, header h1 span {
         font-size: 2.5rem;
     }
-    header h1 span {
-        font-size: 2rem;
-    }
-    nav {
+
+    nav, nav a {
         top: 1rem;
         right: 1rem;
-    }
-    nav a {
         font-size: 1rem;
     }
 }
-
-
-
