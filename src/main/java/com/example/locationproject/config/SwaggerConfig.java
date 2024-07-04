@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 contact = @Contact(name = "Product Management"),
                 description = "OpenApi documentation for Frontend",
-                title = "CareerCompanion Bot",
+                title = "Location Project",
                 version = "1.0",
                 termsOfService = "Terms of service"
         )
