@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="../../src/css/style.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <style>
+        #map {
+            height: 200px;
+            width:100%;
+        }
+    </style>
     <title>Title</title>
 </head>
 <body>
@@ -14,7 +21,7 @@
     <nav>
         <ul>
             <li>
-                <a href="http://localhost:63343/locationProject/public/login.html?_ijt=v5qmig3r8tolu2tcp9dlkf16fr&_ij_reload=RELOAD_ON_SAVE">
+                <a target="_blank" href="login.html">
                     <div class="divInner"></div>
                     <div class="divShadow"></div>
                     <div class="spanTxt iconUser"></div>
@@ -27,8 +34,8 @@
 </header>
 <main>
     <section id="map">
-
     </section>
 </main>
+<script src="../static/js/index.js"> </script>
 </body>
 </html>

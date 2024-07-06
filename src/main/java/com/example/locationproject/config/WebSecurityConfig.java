@@ -27,11 +27,16 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(WHITE_LIST).permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).hasRole("ADMIN")
                         .requestMatchers("/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/login")
+                        .defaultSuccessUrl("/swagger-ui.html", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
                         .permitAll()
                 )
                 .httpBasic(withDefaults())
@@ -41,17 +46,20 @@ public class WebSecurityConfig {
     static final String[] WHITE_LIST = new String[] {
             "/auth/login",
             "/css/**",
-            "/js/**",
+            "/js/**"
+    };
+
+    static final String[] SWAGGER_WHITELIST = new String[] {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html"
     };
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails admin = User.builder()
                 .username("admin")
-                .password(passwordEncoder().encode("password"))
+                .password(passwordEncoder.encode("password"))
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(admin);
