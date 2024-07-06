@@ -14,11 +14,11 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @GetMapping("/auth/login")
-    public String loginPage() {
-        return "login";
-    }
-
+//    @GetMapping("/auth/login")
+//    public String loginPage() {
+//        return "redirect:/swagger-ui.html";
+//    }
+//
     @PostMapping("/login")
     public String login(@ModelAttribute LoginRequest loginRequest, Model model) {
         if (loginService.login(loginRequest)) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" th:lang="">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<form id="form-container" method="POST" action="@{/login}">
+<form id="form-container">
     <h1 class="title">Sign in</h1>
     <div class="label">Username</div>
     <input type="text" name="username"/>
@@ -25,6 +25,29 @@
     <input type="password" name="password"/>
     <input class="submit" type="submit" value="Daxil ol"/>
 </form>
+
+<script src="../static/js/login.js"></script>
+
+<!--<script>-->
+<!--    async function login() {-->
+<!--        const username = document.getElementById('username').value;-->
+<!--        const password = document.getElementById('password').value;-->
+
+<!--        const response = await fetch('/login', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ username, password })-->
+<!--        });-->
+
+<!--        if (response.ok) {-->
+<!--            window.location.href = '/swagger-ui.html';-->
+<!--        } else {-->
+<!--            alert('Login failed');-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 
 </body>
 </html>

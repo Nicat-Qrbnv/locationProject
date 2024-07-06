@@ -23,6 +23,7 @@ header {
     background-size: cover;
     padding-top: 61.93%;
     font-family: 'Sucrose Bold Two';
+    overflow: hidden;
 }
 
 header img {

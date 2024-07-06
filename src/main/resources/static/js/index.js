@@ -8,7 +8,7 @@ function initMap() {
         zoom: 14
     });
 
-    map.addListener('click', function(event) {
+    map.addListener('click', function (event) {
         if (isAdmin) {
             addMarker(event.latLng);
         }
@@ -24,7 +24,6 @@ function addMarker(location) {
     });
 
     markers.push(marker);
-
 
     saveMarkerToDatabase(location);
 }

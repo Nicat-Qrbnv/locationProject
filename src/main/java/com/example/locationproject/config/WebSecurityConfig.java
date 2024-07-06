@@ -44,6 +44,7 @@ public class WebSecurityConfig {
     }
 
     static final String[] WHITE_LIST = new String[] {
+            "/login",
             "/auth/login",
             "/css/**",
             "/js/**"
