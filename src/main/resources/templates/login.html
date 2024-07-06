@@ -19,11 +19,16 @@
 
 <form id="form-container">
     <h1 class="title">Sign in</h1>
-    <div class="label">Username</div>
-    <input type="text" name="username"/>
-    <div class="label">Password</div>
-    <input type="password" name="password"/>
+
+    <label  class="label" for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password" class="label">Password:</label>
+    <input type="password" id="password" name="password" required>
+
     <input class="submit" type="submit" value="Daxil ol"/>
+
+
 </form>
 
 <script src="../static/js/login.js"></script>
