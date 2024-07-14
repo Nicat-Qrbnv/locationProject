@@ -1,4 +1,4 @@
-package com.example.locationproject.dto;
+package com.example.locationproject.dtos;
 
 import com.example.locationproject.enums.MarkerType;
 import lombok.Data;

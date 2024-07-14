@@ -1,11 +1,12 @@
-package com.example.locationproject.service;
+package com.example.locationproject.services;
 
-import com.example.locationproject.dto.RequestDto;
-import com.example.locationproject.dto.ResponseDto;
-import com.example.locationproject.entity.Marker;
+import com.example.locationproject.dtos.RequestDto;
+import com.example.locationproject.dtos.ResponseDto;
+import com.example.locationproject.entities.Marker;
 import com.example.locationproject.exception.ResourceNotFoundException;
-import com.example.locationproject.repository.MarkerRepository;
+import com.example.locationproject.repositories.MarkerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,14 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class LocationService {
 
     private final MarkerRepository markerRepo;
     private final ModelMapper mapper;
 
     public ResponseDto createMarker(RequestDto requestDto) {
+        log.info("Request: {}", requestDto);
         Marker marker = mapper.map(requestDto, Marker.class);
         marker = markerRepo.save(marker);
         return mapper.map(marker, ResponseDto.class);

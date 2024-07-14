@@ -1,6 +1,6 @@
-package com.example.locationproject.repository;
+package com.example.locationproject.repositories;
 
-import com.example.locationproject.entity.Marker;
+import com.example.locationproject.entities.Marker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

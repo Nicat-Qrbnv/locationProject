@@ -1,4 +1,4 @@
-package com.example.locationproject.entity;
+package com.example.locationproject.entities;
 
 import com.example.locationproject.enums.MarkerType;
 import jakarta.persistence.*;
@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Marker {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @NotNull
     private String title;
