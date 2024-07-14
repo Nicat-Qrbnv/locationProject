@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
                 termsOfService = "Terms of service"
         )
 )
-
 public class SwaggerConfig {
 
 }
