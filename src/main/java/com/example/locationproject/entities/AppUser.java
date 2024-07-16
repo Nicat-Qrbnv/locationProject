@@ -12,29 +12,19 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "'user'")
+@Table(name = "app_user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String fullName;
     private String username;
     private String password;
 
     private final Set<Role> authorities = new HashSet<>();
-
-//    private boolean accountNonExpired = true;
-//    private boolean isEnabled = true;
-//    private boolean accountNonLocked = true;
-//    private boolean credentialsNonExpired = true;8
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    private boolean credentialsNonExpired = true;
 
     public void addAuthority(Role role) {
         authorities.add(role);
