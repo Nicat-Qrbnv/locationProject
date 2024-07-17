@@ -1,48 +1,48 @@
 package com.example.locationproject.services.securityServices;
 
 import com.example.locationproject.dtos.securityDtos.LoginForm;
+import com.example.locationproject.dtos.securityDtos.LoginResponse;
 import com.example.locationproject.dtos.securityDtos.RegisterForum;
-import com.example.locationproject.entities.AppUser;
-import com.example.locationproject.enums.Role;
-import com.example.locationproject.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationService {
     private final PasswordEncoder passEncoder;
-    private final UserRepository userRepo;
     private final AuthenticationManager authManager;
     private final JwtService jwtService;
-    private final UserService userService;
+    private final UserDetailsService userService;
+    private final InMemoryUserDetailsManager inMemUserDetManager;
 
-
-    public AppUser signUp(RegisterForum dto) {
-        Optional<AppUser> found = userRepo.findByUsername(dto.username());
-        if (found.isEmpty()) {
-            AppUser user = new AppUser(null, dto.username(), passEncoder.encode(dto.password()), true);
-            user.addAuthority(Role.ROLE_ADMIN);
-            return userRepo.save(user);
+    public boolean change(RegisterForum dto) {
+        UserDetails userDetails = userService.loadUserByUsername(dto.username());
+        if (userDetails != null) {
+            inMemUserDetManager.updatePassword(userDetails, passEncoder.encode(dto.password()));
+            return true;
+        } else {
+            return false;
         }
-        return found.get();
     }
 
-    public String authenticate(LoginForm form) throws UsernameNotFoundException {
+    public LoginResponse authenticate(LoginForm form) throws UsernameNotFoundException {
         Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(form.username(), form.password()));
         if (auth.isAuthenticated()) {
-            return jwtService.generateToken(userService.loadUserByUsername(form.username()));
+            String token = jwtService.generateToken(userService.loadUserByUsername(form.username()));
+            long expiresIn = jwtService.getExpirationTime(token);
+            return new LoginResponse("success", token, expiresIn);
         } else {
-            throw new UsernameNotFoundException("User with \"%s\" username not found: ".formatted(form.username()));
+            throw new UsernameNotFoundException("User not found");
         }
     }
 }

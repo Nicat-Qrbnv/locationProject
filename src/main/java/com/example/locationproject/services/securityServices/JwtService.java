@@ -24,8 +24,8 @@ public class JwtService {
         return DatatypeConverter.printHexBinary(key.getEncoded());
     }
 
-    public long getExpirationTime() {
-        return expiration;
+    public long getExpirationTime(String token) {
+        return parseToken(token).getExpiration().getTime();
     }
 
     public String generateToken(UserDetails userDetails) {

@@ -1,3 +1,3 @@
 package com.example.locationproject.dtos.securityDtos;
 
-public record LoginResponse (String token, long expiresIn) {}
+public record LoginResponse (String result, String token, long expiresIn) {}
