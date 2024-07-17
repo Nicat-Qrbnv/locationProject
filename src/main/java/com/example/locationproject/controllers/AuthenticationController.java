@@ -1,9 +1,8 @@
 package com.example.locationproject.controllers;
 
 import com.example.locationproject.dtos.securityDtos.LoginForm;
+import com.example.locationproject.dtos.securityDtos.LoginResponse;
 import com.example.locationproject.dtos.securityDtos.RegisterForum;
-
-import com.example.locationproject.entities.AppUser;
 import com.example.locationproject.services.securityServices.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +19,22 @@ public class AuthenticationController {
 
     private final AuthenticationService authService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterForum registerForum) {
-        AppUser registered = authService.signUp(registerForum);
-        if (registered != null) {
-            return ResponseEntity.ok(registered.toString());
+    @PutMapping("/change")
+    public ResponseEntity<String> change(@RequestBody RegisterForum registerForum) {
+        boolean changed = authService.change(registerForum);
+        if (changed) {
+            return ResponseEntity.ok("Password updated successfully to " + registerForum.password());
         } else {
-            return ResponseEntity.status(400).body("Invalid username or password");
+            return ResponseEntity.status(400).body("Invalid username");
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginForm loginForm) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginForm loginForm) {
         try {
             return ResponseEntity.ok(authService.authenticate(loginForm));
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(401).body(e.getMessage());
+            return ResponseEntity.status(401).body(new LoginResponse(e.getMessage(), null, 0L));
         }
     }
 }
