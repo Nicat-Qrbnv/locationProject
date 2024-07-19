@@ -16,8 +16,8 @@ public class AppController {
 
 
     @GetMapping("/login")
-    public String viewLoginPage(Model model){
-        model.addAttribute("admin", new Admin());
+    public String viewLoginPage(){
+//        model.addAttribute("admin", new Admin());
         return "login";
     }
 
