@@ -27,8 +27,9 @@ public class AuthenticationService {
 
     public boolean change(RegisterForum dto) {
         UserDetails userDetails = userService.loadUserByUsername(dto.username());
-        if (userDetails != null) {
-            inMemUserDetManager.updatePassword(userDetails, passEncoder.encode(dto.password()));
+        String encoded = passEncoder.encode(dto.password());
+        if (userDetails != null && userDetails.getPassword().equals(encoded)) {
+            inMemUserDetManager.updatePassword(userDetails, encoded);
             return true;
         } else {
             return false;
