@@ -23,7 +23,8 @@ public class WebSecurityConfig {
             "/",
             "/api/v1/auth/**",
             "/css/**",
-            "/js/**"
+            "/js/**",
+            "images/**"
     };
     static final String[] SWAGGER_WHITELIST = new String[]{
             "/v3/api-docs/**",
@@ -35,24 +36,25 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-//                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors
                         .configurationSource(corsConfigurationSource())
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(WHITE_LIST).permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(formLogin ->
-                                formLogin
-//                                .usernameParameter("email")
-                                        .loginPage("/login")
-                                        .defaultSuccessUrl("/dashboard").permitAll()
-
+                        .requestMatchers("/dashboard/**").authenticated()
+                        .anyRequest().authenticated()
                 )
-                .logout(logout ->
-                        logout
-                                .logoutSuccessUrl("/")
-                                .permitAll()
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/dashboard", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

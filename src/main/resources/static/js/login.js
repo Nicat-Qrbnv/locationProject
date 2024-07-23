@@ -35,24 +35,25 @@
 //         });
 // });
 
-document.getElementById('form-container').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    fetch('/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `username=${username}&password=${password}`
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Login successful');
-            } else {
-                alert('Invalid credentials');
-            }
-        });
-});
+// document.getElementById('form-container').addEventListener('submit', function(event) {
+//     event.preventDefault();
+//
+//     const username = document.getElementById('username').value;
+//     const password = document.getElementById('password').value;
+//
+//     fetch('/api/v1/auth/login', {
+//         method: 'POST',
+//         headers: {
+//             // 'Content-Type': 'application/x-www-form-urlencoded',
+//             'Content-Type': 'application/json',
+//         },
+//         body: `username=${username}&password=${password}`
+//     })
+//         .then(response => {
+//             if (response.ok) {
+//                 alert('Login successful');
+//             } else {
+//                 alert('Invalid credentials');
+//             }
+//         });
+// });
