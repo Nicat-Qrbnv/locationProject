@@ -24,7 +24,8 @@ public class WebSecurityConfig {
             "/api/v1/auth/**",
             "/css/**",
             "/js/**",
-            "images/**"
+            "images/**",
+            "/v3/api-docs/**"
     };
     static final String[] SWAGGER_WHITELIST = new String[]{
             "/v3/api-docs/**",
@@ -42,7 +43,8 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(WHITE_LIST).permitAll()
-                        .requestMatchers("/dashboard/**").authenticated()
+                        .requestMatchers("/dashboard/**", "/v3/api-docs/**",
+                                "/swagger-ui/**", "/swagger-ui.html").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

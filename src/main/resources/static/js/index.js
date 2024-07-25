@@ -1,6 +1,21 @@
 let map;
 let markers = [];
-let isAdmin = true;
+
+function loadGoogleMapsAPI() {
+    fetch('/api/maps-key')
+        .then(response => response.text())
+        .then(apiKey => {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        })
+        .catch(error => console.error('Error fetching API key:', error));
+}
+
+
+loadGoogleMapsAPI();
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -8,50 +23,36 @@ function initMap() {
         zoom: 14
     });
 
-    map.addListener('click', function (event) {
-        if (isAdmin) {
-            addMarker(event.latLng);
-        }
-    });
-
-    fetchMarkers();
+    fetchMarkersAndDisplay();
 }
 
-function addMarker(location) {
-    let marker = new google.maps.Marker({
-        position: location,
-        map: map
-    });
-
-    markers.push(marker);
-
-    saveMarkerToDatabase(location);
-}
-
-function saveMarkerToDatabase(location) {
-    fetch('/addMarker', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            lat: location.lat(),
-            lng: location.lng()
+function fetchMarkersAndDisplay() {
+    fetch('/api/v1/markers/all')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         })
-    })
-        .then(response => response.json())
-        .then(data => console.log('Success:', data))
-        .catch((error) => console.error('Error:', error));
-}
-
-function fetchMarkers() {
-    fetch('/getMarkers')
-        .then(response => response.json())
         .then(data => {
-            data.forEach(markerData => {
-                let location = new google.maps.LatLng(markerData.lat, markerData.lng);
-                addMarker(location);
+            clearMarkers();
+            data.forEach(marker => {
+                const mapMarker = new google.maps.Marker({
+                    position: { lat: marker.latitude, lng: marker.longitude },
+                    map: map,
+                    title: marker.description
+                });
+                markers.push(mapMarker);
             });
         })
-        .catch((error) => console.error('Error:', error));
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
+
+function clearMarkers() {
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
+}
+
+window.initMap = initMap;
