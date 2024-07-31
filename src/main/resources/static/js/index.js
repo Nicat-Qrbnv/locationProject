@@ -1,24 +1,30 @@
+import { Loader } from "@googlemaps/js-api-loader";
+
 let map;
 let markers = [];
 
+const loader = new Loader({
+    apiKey: "xxxx",
+    version: "weekly",
+    libraries: ["places", "marker", "journeySharing", "streetView", "visualization"]
+});
+
 async function initMap() {
-    const { Map } = await google.maps.importLibrary("maps");
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    loader.load().then(() => {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 40.10789164639515, lng: 46.04158226806454 },
+            zoom: 14,
+            mapTypeId: 'terrain',
+            tilt: 45,
+            gestureHandling: "cooperative",
+            heading: 90
+        });
 
-    map = new Map(document.getElementById("map"), {
-        center: { lat: 40.10789164639515, lng: 46.04158226806454 },
-        zoom: 14,
-        mapId: "4504f8b37365c3d0",
-        mapTypeId: 'terrain',
-        tilt: 45,
-        gestureHandling: "cooperative",
-        heading: 90
+        fetchMarkersAndDisplay();
     });
-
-    fetchMarkersAndDisplay(AdvancedMarkerElement);
 }
 
-async function fetchMarkersAndDisplay(AdvancedMarkerElement) {
+async function fetchMarkersAndDisplay() {
     try {
         const response = await fetch('/api/v1/markers/all');
         if (!response.ok) {
@@ -27,7 +33,7 @@ async function fetchMarkersAndDisplay(AdvancedMarkerElement) {
         const data = await response.json();
         clearMarkers();
         data.forEach(marker => {
-            const mapMarker = new AdvancedMarkerElement({
+            const mapMarker = new google.maps.Marker({
                 position: { lat: marker.latitude, lng: marker.longitude },
                 map: map,
                 title: marker.description
@@ -40,7 +46,7 @@ async function fetchMarkersAndDisplay(AdvancedMarkerElement) {
 }
 
 function clearMarkers() {
-    markers.forEach(marker => marker.map = null);
+    markers.forEach(marker => marker.setMap(null));
     markers = [];
 }
 
