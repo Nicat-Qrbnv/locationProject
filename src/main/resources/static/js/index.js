@@ -1,53 +1,44 @@
+import { Loader } from '@googlemaps/js-api-loader';
+
 let map;
 let markers = [];
 
-function loadGoogleMapsAPI() {
-    fetch('/api/maps-key')
-        .then(response => response.text())
-        .then(apiKey => {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
-            script.async = true;
-            script.defer = true;
-            document.head.appendChild(script);
-        })
-        .catch(error => console.error('Error fetching API key:', error));
-}
+async function initMap() {
+    const response = await fetch('/api/maps-key');
+    const apiKey = await response.text();
 
+    const loader = new Loader({
+        apiKey: apiKey,
+        version: "weekly",
+        libraries: ["places", "marker", "journeySharing", "streetView", "visualization"]
+    });
 
-loadGoogleMapsAPI();
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.106451, lng: 46.032736},
-        zoom: 14
+    map = await loader.load().then(() => {
+        return new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 40.10789164639515, lng: 46.04158226806454 },
+            zoom: 14,
+            mapTypeId: 'terrain',
+            tilt: 45,
+            gestureHandling: "cooperative",
+            heading: 90
+        });
     });
 
     fetchMarkersAndDisplay();
 }
 
-function fetchMarkersAndDisplay() {
-    fetch('/api/v1/markers/all')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            clearMarkers();
-            data.forEach(marker => {
-                const mapMarker = new google.maps.Marker({
-                    position: { lat: marker.latitude, lng: marker.longitude },
-                    map: map,
-                    title: marker.description
-                });
-                markers.push(mapMarker);
-            });
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+async function fetchMarkersAndDisplay() {
+    const response = await fetch('/api/v1/markers/all');
+    const data = await response.json();
+
+    data.forEach(marker => {
+        const mapMarker = new google.maps.Marker({
+            position: { lat: marker.latitude, lng: marker.longitude },
+            map: map,
+            title: marker.description
         });
+        markers.push(mapMarker);
+    });
 }
 
 function clearMarkers() {
@@ -55,4 +46,4 @@ function clearMarkers() {
     markers = [];
 }
 
-window.initMap = initMap;
+initMap();

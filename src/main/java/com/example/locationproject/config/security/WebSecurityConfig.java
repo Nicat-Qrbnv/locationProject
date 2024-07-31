@@ -25,7 +25,9 @@ public class WebSecurityConfig {
             "/css/**",
             "/js/**",
             "images/**",
-            "/v3/api-docs/**"
+            "/v3/api-docs/**",
+            "/api/v1/markers/all",
+            "/api/maps-key"
     };
     static final String[] SWAGGER_WHITELIST = new String[]{
             "/v3/api-docs/**",
@@ -68,7 +70,6 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:8082"));
         configuration.setAllowedMethods(List.of("GET", "POST"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("../**" , configuration);
         return source;
